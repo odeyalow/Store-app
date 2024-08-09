@@ -1,16 +1,14 @@
 //react bootstrap
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Stack from 'react-bootstrap/Stack';
+import {Button, Card, Stack} from 'react-bootstrap';
 
 const ProductsItem = (props) => {
     return (
         <div className="d-flex justify-content-around">
-            <Card style={{ width: '17.35rem' }}>
+            <Card style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>{props.productName}</Card.Title>
                 <Card.Text>
-                      {props.productPrice}
+                      {props.productPrice}$
                 </Card.Text>
                 <Stack direction="horizontal" gap={3}>
                     <Button variant="primary">В корзину</Button>

@@ -1,16 +1,14 @@
 //react bootstrap
-import Stack from 'react-bootstrap/Stack';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import {Stack, Button, Form} from 'react-bootstrap';
 
 const Filter = () => {
     return (
         <Stack gap={3} style={{maxWidth:'318px', height:'306px', backgroundColor:'white', borderRadius:'7px', padding:'20px'}}>
         <h5 className="price-title" style={{marginBottom:'-5px'}}>Цена</h5>
           <Stack gap={3} direction='horizontal'>
-            <Form.Control type="text" placeholder="От" />
+            <Form.Control type="number" placeholder="От" />
             <h4 className="divider">-</h4>
-            <Form.Control type="text" placeholder="До" />
+            <Form.Control type="number" placeholder="До" />
           </Stack>
           <h5 className="category-title" style={{margin:'10px 0 -5px'}}>Категория</h5>
           <Stack gap={3} direction='horizontal'>
