@@ -3,7 +3,7 @@ import {Button, Card, Stack} from 'react-bootstrap';
 
 const ProductsItem = (props) => {
     return (
-        <div className="d-flex justify-content-around">
+        <div className="d-flex justify-content-around" style={{paddingBottom:'24px'}}>
             <Card style={{ width: '100%' }}>
             <Card.Body>
                 <Card.Title>{props.productName}</Card.Title>
