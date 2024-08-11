@@ -2,6 +2,7 @@
 import Button from 'react-bootstrap/Button';
 
 const ProductButton = (props) => {
+    const {onModalOpen, id} = props;
     return (
       <>
         <Button 
@@ -9,7 +10,8 @@ const ProductButton = (props) => {
         size='lg' 
         style={{
           fontWeight:'600',
-        }}>
+        }}
+        onClick={() => onModalOpen(id)}>
             {props.btnText}
         </Button>
       </>

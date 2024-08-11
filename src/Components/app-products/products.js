@@ -1,3 +1,4 @@
+//components
 import ProductsItem from "../app-products-item/app-products-item";
 //react bootstrap
 import {Container, Row} from 'react-bootstrap';
