@@ -15,11 +15,17 @@ class App extends Component {
     super(props);
     this.state = {
             data:[
-                {name:"Product1", price: 100, isInCart:false, isInFavorites:false, id:1},
-                {name:"Product1", price: 100, isInCart:false, isInFavorites:false, id:2},
-                {name:"Product1", price: 100, isInCart:false, isInFavorites:false, id:3},
-                {name:"Product1", price: 100, isInCart:false, isInFavorites:false, id:4},
-                {name:"Product1", price: 100, isInCart:false, isInFavorites:false, id:5},
+                { name: "Smartphone X", price: 899, isInCart: false, isInFavorites: false, id: 1 },
+                { name: "Laptop Pro", price: 1299, isInCart: false, isInFavorites: false, id: 2 },
+                { name: "Wireless Headphones", price: 199, isInCart: false, isInFavorites: false, id: 3 },
+                { name: "Smartwatch Series 5", price: 349, isInCart: false, isInFavorites: false, id: 4 },
+                { name: "4K Smart TV", price: 999, isInCart: false, isInFavorites: false, id: 5 },
+                { name: "Gaming Console Z", price: 499, isInCart: false, isInFavorites: false, id: 6 },
+                { name: "Bluetooth Speaker", price: 149, isInCart: false, isInFavorites: false, id: 7 },
+                { name: "Tablet Air", price: 699, isInCart: false, isInFavorites: false, id: 8 },
+                { name: "Portable Charger", price: 59, isInCart: false, isInFavorites: false, id: 9 },
+                { name: "Smart Home Hub", price: 199, isInCart: false, isInFavorites: false, id: 10 },
+                { name: "Gaming Keyboard S", price: 149, isInCart: false, isInFavorites: false, id: 11 }
             ],
             buttonsData:[
                 {id:"cart", text:"Корзина"},
@@ -30,7 +36,7 @@ class App extends Component {
     } 
 
     onModalOpen = (id) => {
-        this.setState(prevState => ({
+        this.setState(() => ({
             modal:{
                 name: id === 'cart' ? 'Корзина' : 'Понравившиеся',
                 descr: id === 'cart' ? 'корзину' : 'понравившиеся',
@@ -44,6 +50,20 @@ class App extends Component {
                 ...prevState,
                 isOpen:false
             }
+        }))
+    }
+    onCartAdd = (id) => {
+        this.setState(({data})=> ({    
+            data: data.map(product => {
+                return product.id === id ? {...product, isInCart:true} : product;
+            })
+        }))
+    }
+    onFavoritesAdd = (id) => {
+        this.setState(({data})=> ({    
+            data: data.map(product => {
+                return product.id === id ? {...product, isInFavorites:true} : product;
+            })
         }))
     }
 
@@ -74,7 +94,10 @@ class App extends Component {
             </Stack>
             
             <Stack direction="horizontal" style={{marginTop:'30px'}}>
-                <Products data={data}/> 
+                <Products 
+                data={data}
+                onCartAdd={this.onCartAdd}
+                onFavoritesAdd={this.onFavoritesAdd}/> 
                 <Filter/>
             </Stack>
             <Modal 

@@ -11,8 +11,14 @@ const ProductsItem = (props) => {
                       {props.productPrice}$
                 </Card.Text>
                 <Stack direction="horizontal" gap={3}>
-                    <Button variant="primary">В корзину</Button>
-                    <Button variant="primary">Лайк</Button>
+                    <Button 
+                    variant="primary"
+                    onClick={props.onCartAdd}>
+                    В корзину</Button>
+                    <Button 
+                    variant="primary"
+                    onClick={props.onFavoritesAdd}>
+                    Лайк</Button>
                 </Stack>
             </Card.Body>
             </Card>

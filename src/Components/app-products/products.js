@@ -2,13 +2,16 @@
 import ProductsItem from "../app-products-item/app-products-item";
 //react bootstrap
 import {Container, Row} from 'react-bootstrap';
-const Products = ({data}) => {
+
+const Products = ({data, onCartAdd, onFavoritesAdd}) => {
     const products = data.map(product => {
         return(
             <ProductsItem
                 key={product.id}
                 productName={product.name}
-                productPrice={product.price}/>
+                productPrice={product.price}
+                onCartAdd={() => onCartAdd(product.id)}
+                onFavoritesAdd={() => onFavoritesAdd(product.id)}/>
         )
     })
     return(    
