@@ -15,23 +15,45 @@ class App extends Component {
     super(props);
     this.state = {
             data:[
-                { name: "Smartphone X", price: 899, isInCart: false, isInFavorites: false, id: 1 },
-                { name: "Laptop Pro", price: 1299, isInCart: false, isInFavorites: false, id: 2 },
-                { name: "Wireless Headphones", price: 199, isInCart: false, isInFavorites: false, id: 3 },
-                { name: "Smartwatch Series 5", price: 349, isInCart: false, isInFavorites: false, id: 4 },
-                { name: "4K Smart TV", price: 999, isInCart: false, isInFavorites: false, id: 5 },
-                { name: "Gaming Console Z", price: 499, isInCart: false, isInFavorites: false, id: 6 },
-                { name: "Bluetooth Speaker", price: 149, isInCart: false, isInFavorites: false, id: 7 },
-                { name: "Tablet Air", price: 699, isInCart: false, isInFavorites: false, id: 8 },
-                { name: "Portable Charger", price: 59, isInCart: false, isInFavorites: false, id: 9 },
-                { name: "Smart Home Hub", price: 199, isInCart: false, isInFavorites: false, id: 10 },
-                { name: "Gaming Keyboard S", price: 149, isInCart: false, isInFavorites: false, id: 11 }
+                { name: "Smartphone X", price: 899, isInCart: false, isInFavorites: false, id: 1, category: "Smartphones"},
+                { name: "Laptop Pro", price: 1299, isInCart: false, isInFavorites: false, id: 2, category: "Laptops"},
+                { name: "Wireless Headphones", price: 199, isInCart: false, isInFavorites: false, id: 3, category: "Audio"},
+                { name: "Smartwatch Series 5", price: 349, isInCart: false, isInFavorites: false, id: 4, category: "Wearables"},
+                { name: "4K Smart TV", price: 999, isInCart: false, isInFavorites: false, id: 5, category: "TVs"},
+                { name: "Gaming Console Z", price: 499, isInCart: false, isInFavorites: false, id: 6, category: "Gaming"},
+                { name: "Bluetooth Speaker", price: 149, isInCart: false, isInFavorites: false, id: 7, category: "Audio"},
+                { name: "Tablet Air", price: 699, isInCart: false, isInFavorites: false, id: 8, category: "Tablets", },
+                { name: "Portable Charger", price: 59, isInCart: false, isInFavorites: false, id: 9, category: "Accessories"},
+                { name: "Smart Home Hub", price: 199, isInCart: false, isInFavorites: false, id: 10, category: "Smart Home"},
+                { name: "Gaming Keyboard S", price: 149, isInCart: false, isInFavorites: false, id: 11, category: "Gaming"},
+                { name: "Noise-Canceling Headphones", price: 299, isInCart: false, isInFavorites: false, id: 12, category: "Audio"},
+                { name: "Smart Thermostat", price: 249, isInCart: false, isInFavorites: false, id: 13, category: "Smart Home"},
+                { name: "Curved Gaming Monitor", price: 599, isInCart: false, isInFavorites: false, id: 14, category: "Monitors"},
+                { name: "E-Reader Pro", price: 129, isInCart: false, isInFavorites: false, id: 15, category: "Tablets"},
+                { name: "Wi-Fi Mesh System", price: 299, isInCart: false, isInFavorites: false, id: 16, category: "Networking"},
+                { name: "Drone Camera X", price: 799, isInCart: false, isInFavorites: false, id: 17, category: "Cameras"}
             ],
+            categoriesData: [
+                { name: "Смартфоны", value: "Smartphones" },
+                { name: "Ноутбуки", value: "Laptops" },
+                { name: "Аудио", value: "Audio" },
+                { name: "Носимые устройства", value: "Wearables" },
+                { name: "Телевизоры", value: "TVs" },
+                { name: "Игры", value: "Gaming" },
+                { name: "Планшеты", value: "Tablets" },
+                { name: "Аксессуары", value: "Accessories" },
+                { name: "Умный дом", value: "Smart Home" },
+                { name: "Мониторы", value: "Monitors" },
+                { name: "Сети", value: "Networking" },
+                { name: "Камеры", value: "Cameras" }
+            ],            
             buttonsData:[
                 {id:"cart", text:"Корзина"},
                 {id:"favorites", text:"Понравившиеся"}
             ],
-            modal:{isOpen:false, name:'', descr:'', modalData:''}
+            modal:{isOpen:false, name:'', descr:'', modalData:''},
+            searchValue:'',
+            filters:{priceFrom:0, priceTo:0, category:'all'}
         }
     } 
 
@@ -67,9 +89,22 @@ class App extends Component {
             })
         }))
     }
+    onUpdateSearch = (searchValue) => {
+        this.setState({searchValue})
+    }
+    searchProduct = (data, searchValue) => {
+        if (searchValue.length === 0) {
+            return data;
+        }
+        return data.filter(product => {
+            return product.name.indexOf(searchValue) > -1
+        })
+    }
+    
 
    render(){
-    const {data, buttonsData, modal} = this.state;
+    const {data, buttonsData, modal, searchValue, categoriesData} = this.state;
+    const visibleData = this.searchProduct(data, searchValue);
     const buttons = buttonsData.map(button => {
         return(
             <ProductButton
@@ -90,16 +125,26 @@ class App extends Component {
             }}>TECHNOSHOP</h1>
     
             <Stack  direction="horizontal" gap={3}>
-                <Search/>
+                <Search
+                onUpdateSearch={this.onUpdateSearch}/>
                 {buttons}
             </Stack>
-            
-            <Stack direction="horizontal" style={{marginTop:'30px'}}>
+            <div className="titles__block" 
+                style={{
+                color:'#fff',
+                display:'flex',
+                justifyContent:'space-between',
+                margin:'20px 0 5px'}}>
+                <h4>Товары:</h4>
+                <h4 style={{marginRight:'210px'}}>Фильтры:</h4>
+            </div>
+            <Stack direction="horizontal">
                 <Products 
-                data={data}
+                data={visibleData}
                 onCartAdd={this.onCartAdd}
                 onFavoritesAdd={this.onFavoritesAdd}/> 
-                <Filter/>
+                <Filter
+                data={categoriesData}/>
             </Stack>
             <Modal 
             data={data}
