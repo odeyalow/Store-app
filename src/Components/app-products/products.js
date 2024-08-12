@@ -7,11 +7,11 @@ const Products = ({data, onCartAdd, onFavoritesAdd}) => {
     const products = data.map(product => {
         return(
             <ProductsItem
-                key={product.id}
-                productName={product.name}
-                productPrice={product.price}
-                onCartAdd={() => onCartAdd(product.id)}
-                onFavoritesAdd={() => onFavoritesAdd(product.id)}/>
+            key={product.id}
+            productName={product.name}
+            productPrice={product.price}
+            onCartAdd={() => onCartAdd(product.id)}
+            onFavoritesAdd={() => onFavoritesAdd(product.id)}/>
         )
     })
     return(    

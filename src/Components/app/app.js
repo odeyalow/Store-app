@@ -31,7 +31,7 @@ class App extends Component {
                 {id:"cart", text:"Корзина"},
                 {id:"favorites", text:"Понравившиеся"}
             ],
-            modal:{isOpen:false, name:'', descr:''}
+            modal:{isOpen:false, name:'', descr:'', modalData:''}
         }
     } 
 
@@ -40,7 +40,8 @@ class App extends Component {
             modal:{
                 name: id === 'cart' ? 'Корзина' : 'Понравившиеся',
                 descr: id === 'cart' ? 'корзину' : 'понравившиеся',
-                isOpen:true
+                isOpen:true,
+                modalData: id === 'cart' ? 'cartProducts' : 'favoriteProducts'
             }
         }))
     }
@@ -105,7 +106,8 @@ class App extends Component {
             isOpen={modal.isOpen}
             onModalClose={() => this.onModalClose}
             name={modal.name}
-            descr={modal.descr}/>
+            descr={modal.descr}
+            modalData={modal.modalData}/>
         </div>
        )
    }
