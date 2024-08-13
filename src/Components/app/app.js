@@ -34,6 +34,7 @@ class App extends Component {
                 { name: "Drone Camera X", price: 799, isInCart: false, isInFavorites: false, id: 17, category: "Cameras"}
             ],
             categoriesData: [
+                // { name: "Все", value: "All" },
                 { name: "Смартфоны", value: "Smartphones" },
                 { name: "Ноутбуки", value: "Laptops" },
                 { name: "Аудио", value: "Audio" },
@@ -53,7 +54,7 @@ class App extends Component {
             ],
             modal:{isOpen:false, name:'', descr:'', modalData:''},
             searchValue:'',
-            filters:{priceFrom:0, priceTo:0, category:'all'}
+            filters:{category:'all', priceFrom:0, priceTo:0},
         }
     } 
 
@@ -100,11 +101,47 @@ class App extends Component {
             return product.name.indexOf(searchValue) > -1
         })
     }
+    onUpdateFilters = (state) => {
+        let priceFrom = Number(state.priceFrom),
+            priceTo = Number(state.priceTo);
+
+        if(priceTo === 0){
+            this.setState(() => ({
+                filters:{
+                    priceFrom:priceFrom, 
+                    priceTo:priceTo, 
+                    category:state.category
+                }
+            }))
+            this.onApplyFilters();
+        } else{
+            if(priceFrom > priceTo){
+                alert('Пожалуйста введите корректный диапазон цен!');
+            }
+        }
+    }
+    onApplyFilters = () => {
+        const {category, priceFrom, priceTo} = this.state.filters;
+        const {data} = this.state
+
+        let filteredData = [...data];
+        if (category !== 'all') {
+            filteredData = filteredData.filter(product => product.category === category);
+        }
+        if (priceFrom !== 0 || priceTo !== 0) {
+            filteredData = filteredData.filter(product => 
+                product.price > priceFrom && (priceTo === 0 || product.price < priceTo)
+            );
+        }
+
+        return filteredData;
+    }
     
 
    render(){
-    const {data, buttonsData, modal, searchValue, categoriesData} = this.state;
-    const visibleData = this.searchProduct(data, searchValue);
+    const {data, buttonsData, modal, categoriesData, searchValue} = this.state;
+    let visibleData = this.onApplyFilters();
+    visibleData = this.searchProduct(visibleData, searchValue);
     const buttons = buttonsData.map(button => {
         return(
             <ProductButton
@@ -114,7 +151,6 @@ class App extends Component {
             onModalOpen={this.onModalOpen}/>
         );
     })
-
     return (
         <div className="App">
             <h1 className="title"
@@ -144,7 +180,8 @@ class App extends Component {
                 onCartAdd={this.onCartAdd}
                 onFavoritesAdd={this.onFavoritesAdd}/> 
                 <Filter
-                data={categoriesData}/>
+                data={categoriesData}
+                onUpdateFilters={this.onUpdateFilters}/>
             </Stack>
             <Modal 
             data={data}
