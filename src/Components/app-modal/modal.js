@@ -3,14 +3,14 @@ import closeIcon from './assets/close-icon.svg';
 //styles
 import './modal-styles/modal.scss';
 //react bootstrap
-import Card from 'react-bootstrap/Card';
+import {Card, Button} from 'react-bootstrap';
 
-const Modal = ({data, isOpen, name, onModalClose, descr, modalData}) => {
+const Modal = ({data, isOpen, name, onModalClose, descr, modalData, onRemoveCart, onRemoveFavorites}) => {
     const open = isOpen ? 'block' : 'none';
 
     let cardProducts = [];
 
-    const loadProducts = (product, prop) => {
+    const loadProducts = (product) => {
         return(
             <div className="d-flex justify-content-around" style={{paddingBottom:'24px'}}>
                 <Card style={{ width: '100%' }}>
@@ -19,6 +19,12 @@ const Modal = ({data, isOpen, name, onModalClose, descr, modalData}) => {
                         <Card.Text>
                             {product.price}$
                         </Card.Text>
+                        <Button
+                        className='cardAddBtn'
+                        variant="primary"
+                        onClick={() => name === 'Корзина' ? onRemoveCart(product.id) : onRemoveFavorites(product.id)}>
+                        Убрать из {name === 'Корзина' ? 'корзины' : 'понравившихся'}
+                        </Button>
                     </Card.Body>
                 </Card>
             </div>

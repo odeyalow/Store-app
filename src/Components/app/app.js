@@ -82,11 +82,35 @@ class App extends Component {
                 return product.id === id ? {...product, isInCart:true} : product;
             })
         }))
+        const addedProductName = this.state.data
+            .filter(product => product.id === id)
+            .map(product => product.name);
+
+        alert(`Продукт ${addedProductName} был добавлен в корзину!`);
     }
     onFavoritesAdd = (id) => {
         this.setState(({data})=> ({    
             data: data.map(product => {
                 return product.id === id ? {...product, isInFavorites:true} : product;
+            })
+        }))
+        const addedProductName = this.state.data
+            .filter(product => product.id === id)
+            .map(product => product.name);
+
+        alert(`Продукт ${addedProductName} был добавлен в понравившиеся!`);
+    }
+    onRemoveCart = (id) => {
+        this.setState(({data})=> ({    
+            data: data.map(product => {
+                return product.id === id ? {...product, isInCart:false} : product;
+            })
+        }))
+    }
+    onRemoveFavorites = (id) => {
+        this.setState(({data})=> ({    
+            data: data.map(product => {
+                return product.id === id ? {...product, isInFavorites:false} : product;
             })
         }))
     }
@@ -158,7 +182,7 @@ class App extends Component {
                 padding:'48px 0 100px 0',
                 fontSize:'55px',
                 color:'white'
-            }}>TECHNOSHOP</h1>
+            }}>STORE APP <span style={{color:'white', fontSize:'16px'}}>Version-1</span> </h1>
     
             <Stack  direction="horizontal" gap={3}>
                 <Search
@@ -175,7 +199,8 @@ class App extends Component {
                 <h4 style={{marginRight:'210px'}}>Фильтры:</h4>
             </div>
             <Stack direction="horizontal">
-                <Products 
+                <Products
+                onDisableBtn={this.onDisableBtn}
                 data={visibleData}
                 onCartAdd={this.onCartAdd}
                 onFavoritesAdd={this.onFavoritesAdd}/> 
@@ -189,7 +214,9 @@ class App extends Component {
             onModalClose={() => this.onModalClose}
             name={modal.name}
             descr={modal.descr}
-            modalData={modal.modalData}/>
+            modalData={modal.modalData}
+            onRemoveCart={this.onRemoveCart}
+            onFavoritesAdd={this.onRemoveFavorites}/>
         </div>
        )
    }

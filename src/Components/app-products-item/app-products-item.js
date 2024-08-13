@@ -2,6 +2,15 @@
 import {Button, Card, Stack} from 'react-bootstrap';
 
 const ProductsItem = (props) => {
+    const onCartAdd = (e) => {
+        
+        props.onCartAdd();
+    }
+    const onFavoritesAdd = (e) => {
+        
+        props.onFavoritesAdd();
+    }
+
     return (
         <div className="d-flex justify-content-around" style={{paddingBottom:'24px'}}>
             <Card style={{ width: '100%' }}>
@@ -11,13 +20,15 @@ const ProductsItem = (props) => {
                       {props.productPrice}$
                 </Card.Text>
                 <Stack direction="horizontal" gap={3}>
-                    <Button 
+                    <Button
+                    className='cardAddBtn'
                     variant="primary"
-                    onClick={props.onCartAdd}>
+                    onClick={onCartAdd}>
                     В корзину</Button>
                     <Button 
+                    className='favoritesAddBtn'
                     variant="primary"
-                    onClick={props.onFavoritesAdd}>
+                    onClick={onFavoritesAdd}>
                     Лайк</Button>
                 </Stack>
             </Card.Body>
